@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>index_父传子方式</title>
+  <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    class Index extends React.Component {
+      state = {
+        comments: []
+      };
+      render() {
+        return (
+          <div>
+            <div>
+              评论人：
+              <input type="text" autoComplete="off" ref={c => this.commentator = c} />
+            </div>
+            <div>
+              评论内容：
+              <textarea cols="30" rows="10" ref={c => this.comments = c}></textarea>
+            </div>
+            <div>
+              <button onClick={this.submitComments}>提交</button>
+            </div>
+            <div>
+              <Display data={this.state.comments} />
+            </div>
+          </div>
+        )
+      }
+      submitComments = () => {
+        let val1 = this.commentator.value;
+        let val2 = this.comments.value;
+        if (this.isNotEmpty(val1) && this.isNotEmpty(val2)) {
+          let obj = {
+            id: this.state.comments.length + 1,
+            commentator: val1,
+            comments: val2
+          }
+          let arr = this.state.comments;
+          console.log(arr);
+          arr.push(obj);
+          this.setState({ comments: arr });
+          this.commentator.value = "";
+          this.comments.value = "";
+        } else {
+          alert('必填项不能为空');
+        }
+      }
+      isNotEmpty(str) {
+        if (str !== null && str !== '') {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    }
+    class Display extends React.Component {
+      state = {
+
+      };
+      render() {
+        let { data } = this.props;
+        return (
+          <div>
+            <ul>
+              {
+                data.length === 0 ? '暂无评论' :
+                  data.map(item => {
+                    return (
+                      <li key={item.id}>
+                        评论者：{item.commentator}<br />
+                    评论内容：{item.comments}
+                      </li>
+                    )
+                  })
+              }
+            </ul>
+          </div>
+        )
+      }
+    }
+    ReactDOM.render(<Index />, document.getElementById('root'))
+  </script>
+</body>
+
+</html>
