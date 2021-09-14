@@ -20,7 +20,8 @@
 
         state={
             username:'',
-            context:''
+            context:'',
+            data:[]
         }
 
         render(){
@@ -29,6 +30,7 @@
                     <input placeholder="用户名" value={this.state.username}  onChange={this.changeState('username')} ref={c=>this.getUsername=c}></input><br/>
                     <textarea rows="10" cols="20"  value={this.state.context}  className="shuru" onChange={this.changeState('context')} ref={c=>this.getContext=c}></textarea><br/>
                     <button onClick={this.sendInfo}>发表</button>
+                    <Down data={this.state.data}/>
                 </div>
             )
         }
@@ -38,8 +40,8 @@
         }
         //将内容发送给下部
         sendInfo=()=>{
+            this.state.data.push(this.state.username,this.state.context)
             this.setState({username:'',context:''})
-            return ReactDOM.render(<Down username={this.state.username} context={this.state.context}/>,document.getElementById("down"))
         }
 
     }
@@ -47,18 +49,23 @@
     class Down extends React.Component{
 
         render(){
-            const {username,context}=this.props
+            const {data}=this.props
+            console.log(data)
             return(
                 <div>
-                    <span >{username}</span><br/>
-                    <span >{context}</span>
+                    <span>{data.length==0 ?'暂无内容':''}</span>
+                    <ul>
+                        {data.map((item,index)=>{
+                            return <li key={index}>{item}</li>
+                        })}
+                    </ul>
                 </div>
+                
             )
         }
     }
 
     ReactDOM.render(<Top/>,document.getElementById("top"))
-    ReactDOM.render(<Down/>,document.getElementById("down"))
 
     </script>
 </body>
