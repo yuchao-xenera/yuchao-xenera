@@ -64,22 +64,25 @@
 
             render() {
                 let { data } = this.props;
+                console.log(data);
+
+                let listItems = ''
+                if (data.length <= 0) {
+                    listItems = <div>暂无评论</div>
+                } else {
+                    listItems = data.map(item =>
+                        <li key={item.id}>
+                            评论作者：{item.author}<br />
+                            评论内容：{item.content}
+                        </li>
+                    )
+                }
+                
                 return (
                     <div>
                         <h4 style={{ color: 'red' }}>评论列表：</h4>
                         <ul>
-                            {
-                                data.length === 0 ? '暂无评论' :
-                                    data.map(item => {
-                                        return (
-                                            <li key={item.id}>
-                                                评论作者：{item.author}<br />
-                                                评论内容：{item.content}
-                                            </li>
-                                            
-                                        )
-                                    })
-                            }
+                            {listItems}
                         </ul>
                     </div>
                 )
