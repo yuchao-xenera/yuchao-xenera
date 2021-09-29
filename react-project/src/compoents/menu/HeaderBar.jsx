@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
-import { Layout, Menu } from 'antd';
-import { resetKeyAction } from '../../redux/actions/headerBar';
+import { Layout, Menu } from 'antd'
+import { resetHeaderKeyAction } from '../../redux/actions/headerBar'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
@@ -14,15 +14,17 @@ class HeaderBar extends Component {
     }
 
     onClick = (e) => {
-        this.props.resetKey(e.key)
-        // console.log(this.props.keyValue,this.props.temp);
+        this.props.resetHeaderKey(e.key)
+        // console.log(this.props.headerKey,this.props);
 
+        //设置路由
         setTimeout(() => {
-            // console.log('@2：', this.props.keyValue,this.props.temp);
-            if (this.props.keyValue === "/dataMenu") {
+            // console.log('@@', e.key,this.props.leftKey);
+            if (e.key === "2") {
                 this.props.history.push('/dataMenu')
-            } else {
-                if (this.props.temp === "1") {
+            } 
+            else {
+                if (!this.props.leftKey || this.props.leftKey === "1") {
                     this.props.history.push('/userList')
                 } else {
                     this.props.history.push('/addUser')
@@ -30,17 +32,18 @@ class HeaderBar extends Component {
             }
             this.setHeaderSelectedItem()
         }, 200);
+        
 
     }
     /**
-     * 设置headerBar的选中状态
+     * 设置headerBar的选中状态(根据路由来更新的状态)
      */
     setHeaderSelectedItem() {
         const pathname = this.props.location.pathname
-        console.log('@@@', pathname, pathname === "/dataMenu");
+        // console.log('haderBar 路由：', pathname);
         if (pathname === "/dataMenu") {
             this.setState({
-                selectedKeys: [pathname]
+                selectedKeys: ['2']
             })
         } else {
             this.setState({
@@ -50,19 +53,13 @@ class HeaderBar extends Component {
     }
 
     /**
-     * 刷新页面，重新设置headerBar和leftBar的选中状态
+     * 刷新页面，重新设置headerBar
      */
     componentDidMount() {
         this.setHeaderSelectedItem()
-        console.log('--->', this.state.selectedKeys);
-
+        //通知leftBar
         const pathname = this.props.location.pathname
-        this.props.resetKey(pathname === "/dataMenu" ? pathname : '1')
-    }
-
-    componentDidUpdate() {
-        // console.log("header bar didUpate",this.props.keyValue,this.props.temp);
-
+        this.props.resetHeaderKey(pathname === "/dataMenu" ? pathname : '1')
     }
 
     render() {
@@ -72,12 +69,11 @@ class HeaderBar extends Component {
                 <Menu
                     theme="dark"
                     mode="horizontal"
-                    // defaultSelectedKeys={this.state.selectedKeys}
                     selectedKeys={this.state.selectedKeys}
                     onClick={this.onClick}
                 >
                     <Menu.Item key="1" >用户管理</Menu.Item>
-                    <Menu.Item key="/dataMenu" >数据展示</Menu.Item>
+                    <Menu.Item key="2" >数据展示</Menu.Item>
                 </Menu>
             </Header>
         )
@@ -86,14 +82,14 @@ class HeaderBar extends Component {
 
 function mapStateToProps(state) {
     return {
-        keyValue: state.key,
-        temp: state.temp
+        headerKey: state.headerKey,
+        leftKey: state.leftKey
     }
 }
 
 function mapDispachToProps(dispach) {
     return {
-        resetKey: (value) => { dispach(resetKeyAction(value)) },
+        resetHeaderKey: (value) => { dispach(resetHeaderKeyAction(value)) },
     }
 }
 

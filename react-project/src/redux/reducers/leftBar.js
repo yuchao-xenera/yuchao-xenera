@@ -7,7 +7,7 @@ import { CHANGE_LEFT_KEY } from "../const";
  * @returns 
  */
  export default function leftBarReducer(pre = "1", action) {
-    console.log('leftBar reducer执行了~');
+    // console.log('leftBar reducer执行了~');
 
     const { type, data } = action
 

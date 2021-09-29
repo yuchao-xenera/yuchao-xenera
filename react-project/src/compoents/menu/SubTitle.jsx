@@ -15,7 +15,7 @@ class SubTitle extends Component {
                         if (match !== null) {
                             return (
                                 <Fragment key={r.id}>
-                                    <Breadcrumb.Item>/ {r.title}</Breadcrumb.Item>
+                                    <Breadcrumb.Item>{r.title}</Breadcrumb.Item>
                                 </Fragment>
                             )
                         }

@@ -10,15 +10,15 @@ export default function UpdateUser(props) {
     const employeeNumber = React.useRef()
     const telephone = React.useRef()
 
-    const data = [
-        {
-            key: '1',
-            userName: 'John Brown',
-            employeeNumber: 1000,
-            userEmail: '888888@qq.com',
-            telephone: '13500000000',
-        },
-    ];
+    // const data = [
+    //     {
+    //         key: '1',
+    //         userName: 'John Brown',
+    //         employeeNumber: 1000,
+    //         userEmail: '888888@qq.com',
+    //         telephone: '13500000000',
+    //     },
+    // ];
 
     /**
      * 提交按钮事件
@@ -85,7 +85,7 @@ export default function UpdateUser(props) {
     return (
         <div >
             <div>
-                姓名：
+                name：
                 <input ref={userName} defaultValue={props.user ? props.user.userName : ''} onChange={() => { }} style={{ width: '150px' }} />
                 &nbsp;&nbsp;&nbsp;&nbsp;工&nbsp;&nbsp;&nbsp;号：
                 <input ref={employeeNumber} 
@@ -102,7 +102,7 @@ export default function UpdateUser(props) {
                 <input ref={telephone} 
                 defaultValue={props.user ? props.user.telephone : ''} 
                 onChange={() => { }} 
-                maxLength='13' 
+                maxLength='11' 
                 style={{ width: '150px' }} 
                 />
             </div>

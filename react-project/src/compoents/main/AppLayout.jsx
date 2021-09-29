@@ -8,18 +8,12 @@ const { Content } = Layout;
 export default class AppLayout extends Component {
     render() {
         return (
-
             <Layout>
-
                 <HeaderBar />
-
                 <Layout>
-
                     <LeftBar />
-
                     <Layout style={{ padding: '0 24px 24px' }}>
                         <SubTitle />
-
                         <Content
                             className="site-layout-background"
                             style={{
@@ -33,7 +27,6 @@ export default class AppLayout extends Component {
                     </Layout>
                 </Layout>
             </Layout>
-
         )
     }
 }

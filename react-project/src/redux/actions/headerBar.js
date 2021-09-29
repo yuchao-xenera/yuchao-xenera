@@ -4,7 +4,7 @@ import { CHANGEKEY } from '../const'
  * @param {*} data 
  * @returns 
  */
-export function resetKeyAction(data) {
+export function resetHeaderKeyAction(data) {
     return {
         type: CHANGEKEY,
         data: data

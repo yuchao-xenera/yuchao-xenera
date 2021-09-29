@@ -7,7 +7,7 @@ import { CHANGEKEY } from '../const'
  * @returns 
  */
 export default function headerBarReducer(pre = "1", action) {
-    console.log('headerBar reducer执行了~');
+    // console.log('headerBar reducer执行了~');
 
     const { type, data } = action
 
