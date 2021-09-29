@@ -43,12 +43,31 @@ class Show extends Component {
       this.setState({updateObj})
     }
   }
-  saveInfo = (newObj)=>{
-    const {data}=this.state
-    const newData=data.map((oldObj)=>{
-      return oldObj.key===newObj.key?newObj:oldObj
-    })
-    this.setState({data:newData,updateObj:{userName:'',employeeNumber:'',telephone:'',userEmail:''}})
+  saveInfo = ()=>{
+    // const {data}=this.state
+    // const newData=data.map((oldObj)=>{
+    //   return oldObj.key===newObj.key?newObj:oldObj
+    // })
+    // this.setState({data:newData,updateObj:{userName:'',employeeNumber:'',telephone:'',userEmail:''}})
+    this.setState({loading:true}) 
+    axios({
+      url:"http://localhost:3000/api/user/show_user_list",
+      method:'POST'
+    }).then(
+          response=>{
+            const {result}=response.data
+            for(let i = 0; i < result.length; i++)
+            {
+              result[i].key=i
+            }
+            this.setState({data:result,loading:false}) 
+          },
+          error=>{
+            console.log('失败了',error)
+            this.setState({loading:false}) 
+          }
+      )
+      this.setState({updateObj:{userName:'',employeeNumber:'',telephone:'',userEmail:''}})
   }
 
   componentDidMount(){

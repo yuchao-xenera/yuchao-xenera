@@ -22,7 +22,7 @@ export default class Update extends Component {
         }).then(
           response => {
             alert('修改成功')
-            saveInfo({key:updateObj.key,...values})
+            saveInfo()
           },
           error=>{
             alert('修改失败'+error)
