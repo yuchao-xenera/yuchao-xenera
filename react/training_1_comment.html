@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>练习1：评论功能</title>
+</head>
+
+<body>
+
+    <div id="demo"></div>
+
+    <!-- 引入react核心库 -->
+    <script src='https://unpkg.com/react@17/umd/react.development.js'></script>
+    <!-- 引入react-dom,用于支撑react操作DOM -->
+    <script src='https://unpkg.com/react-dom@17/umd/react-dom.development.js'></script>
+    <!-- 引入babel，用于将jxs转化为js -->
+    <script src='https://unpkg.com/@babel/standalone/babel.min.js'></script>
+    <!-- 引入prop-types,用于对标签属性进行限制 -->
+    <script src='https://cdn.bootcdn.net/ajax/libs/prop-types/15.7.2/prop-types.js'></script>
+
+    <script type="text/babel">
+
+        class Comment extends React.Component {
+
+            state = { commentList: [] }
+
+            render() {
+                return (
+                    <div>
+                        评论作者(*必填)：<input ref={cNode => this.author = cNode} type="text" placeholder="输入评论者" ></input> <br /><br />
+                        评论内容(*必填)：<input ref={cNode => this.content = cNode} style={{ height: '200px' }} type="text" placeholder="输入评论内容" ></input> <br /><br />
+                        <button onClick={this.submit}>提交评论</button><br /><br />
+                        <ShowComment data={this.state.commentList} />
+                    </div>
+                )
+            }
+
+            submit = () => {
+                const { author, content } = this
+                if (!author.value || !content.value) {
+                    alert('请输入必填项！')
+                } else {
+                    let obj = {
+                        id: this.state.commentList.length + 1,
+                        author: this.author.value,
+                        content: this.content.value
+                    }
+                    let arr = this.state.commentList.push(obj)
+                    this.setState({ commentList: this.state.commentList })
+
+                    this.author.value = ''
+                    this.content.value = ''
+
+                }
+
+            }
+
+        }
+
+        class ShowComment extends React.Component {
+
+            render() {
+                let { data } = this.props;
+                console.log(data);
+
+                let listItems = ''
+                if (data.length <= 0) {
+                    listItems = <div>暂无评论</div>
+                } else {
+                    listItems = data.map(item =>
+                        <li key={item.id}>
+                            评论作者：{item.author}<br />
+                            评论内容：{item.content}
+                        </li>
+                    )
+                }
+                
+                return (
+                    <div>
+                        <h4 style={{ color: 'red' }}>评论列表：</h4>
+                        <ul>
+                            {listItems}
+                        </ul>
+                    </div>
+                )
+            }
+        }
+
+        ReactDOM.render(<Comment />, document.getElementById('demo'))
+
+    </script>
+
+</body>
+
+</html>
