@@ -9,12 +9,11 @@ export default class UserManage extends Component {
     render() {
         return (   
             <Layout>
-                <Sider width={200} style={{backgroundColor:'gray'}}>
+                <Sider width={250} style={{backgroundColor:'gray'}}>
                     <Menu
                     mode="inline"
-                    defaultSelectedKeys={['1']}
-                    defaultOpenKeys={['sub1']}
-                    style={{ height: '100%', borderRight: 0 }}
+                    defaultSelectedKeys={['1']}                    
+                    className='div_menu'
                     >
                         <Menu.Item  key="1"><NavLink to='/dataDisplay/show'>菜单1</NavLink></Menu.Item>
                     </Menu>

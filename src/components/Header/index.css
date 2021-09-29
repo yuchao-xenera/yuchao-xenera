@@ -1,13 +1,18 @@
 .active_header{
-    background-color: rgb(214, 214, 214)!important;
+    background-color: rgb(214, 214, 214);
     text-align: center;
+    vertical-align: middle;
+    height: 120px;
 }
 .current{
-    color:rgb(79, 191, 243) !important
+    background-color:rgb(221, 235, 247) ;
+    color: black !important;
 }
 .navLink{
-    width: 100px;
-    height: 30px;
+    color:black;
+    border: 1px solid;
+    padding: 10px 20px;
+    vertical-align: middle;
 }
 #components-layout-demo-top-side .logo {
     float: left;

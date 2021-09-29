@@ -39,14 +39,17 @@ export default class Update extends Component {
 
     render() {        
         return (
-            <div style={{border:'1px solid',padding:'60px'}}>
+            <div style={{border:'1px solid',padding:'20px'}}>
               <Form
                 name="basic"
                 layout="horizontal"
                 onFinish={this.onFinish}
+                labelCol={{ span: 8 }}
+                wrapperCol={{ span: 16 }}
                 ref={this.formRef}
+                style={{marginLeft:'30px'}}
               >
-                <Row gutter={24}>
+                <Row style={{marginTop:'30px'}} gutter={24}>
                     <Col span={12}>
                       <Form.Item
                         label="name"

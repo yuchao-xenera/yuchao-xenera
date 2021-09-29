@@ -31,6 +31,7 @@ class Show extends Component {
   };  
   onSelectChange = (_, selectedRows) => {
     this.setState({ selectedRows });
+    console.log(selectedRows);
   };
   updateInfo=()=>{
     const count=this.state.selectedRows.length
@@ -85,7 +86,7 @@ class Show extends Component {
     const rowSelection = {
       onChange: this.onSelectChange,
     }; 
-
+    const {data,loading,updateObj}=this.state
     return (
         <div>
             <Breadcrumb style={{ margin: '16px 0' }}>
@@ -93,9 +94,9 @@ class Show extends Component {
             </Breadcrumb>
             <div>
               <Button type="primary" style={{float:'right'}} onClick={this.updateInfo}>修改</Button>
-              <Table 　rowKey='userId' bordered loading={this.state.loading} rowSelection={rowSelection} columns={columns} dataSource={this.state.data} scroll={{ y: 300 }} />
+              <Table 　rowKey='userId' bordered loading={loading} rowSelection={rowSelection} columns={columns} dataSource={data} scroll={{ y: 300 }} />
             </div>
-            <Update updateObj={this.state.updateObj} saveInfo={this.saveInfo}/>
+            <Update updateObj={updateObj} saveInfo={this.saveInfo}/>
         </div>
     )
   }
