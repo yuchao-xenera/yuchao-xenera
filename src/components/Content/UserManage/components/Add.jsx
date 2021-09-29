@@ -15,6 +15,7 @@ export default class Add extends Component {
     }).then(
       response=>{
         alert('添加成功')
+        this.formRef.current.resetFields()
       },
       error=>{
         alert('添加失败')

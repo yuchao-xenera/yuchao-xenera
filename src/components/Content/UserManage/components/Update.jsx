@@ -31,12 +31,6 @@ export default class Update extends Component {
         
     }
 
-
-    componentDidMount(){
-        this.formRef.current.setFieldsValue({
-            ...this.props.updateObj
-            });
-    }
     componentDidUpdate(){
         this.formRef.current.setFieldsValue({
             ...this.props.updateObj
