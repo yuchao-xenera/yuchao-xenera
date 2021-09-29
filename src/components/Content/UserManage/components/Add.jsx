@@ -4,12 +4,11 @@ import axios from 'axios';
 
 export default class Add extends Component {
   formRef=React.createRef()
-  onFinish=()=>{
-    console.log(this.formRef.current.getFieldValue())
+  onFinish=(values)=>{
     axios({
       url:"http://localhost:3000/api/user/addUser_handle",
       data:{
-        ...this.formRef.current.getFieldValue()
+        ...values
       },
       method:'post'
     }).then(

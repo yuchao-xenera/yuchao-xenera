@@ -6,7 +6,7 @@ export default class Update extends Component {
     formRef = React.createRef()
 
 
-    onFinish=()=>{
+    onFinish=(values)=>{
         const {saveInfo,updateObj}=this.props
         axios({
           url:"http://localhost:3000/api/user/changeInfo",
@@ -16,13 +16,13 @@ export default class Update extends Component {
             status:updateObj.status,
             createUser:updateObj.createUser,
             updateUser:updateObj.updateUser,            
-            ...this.formRef.current.getFieldsValue()
+            ...values
           },
           method:'post'
         }).then(
           response => {
             alert('修改成功')
-            saveInfo({key:updateObj.key,...this.formRef.current.getFieldsValue()})
+            saveInfo({key:updateObj.key,...values})
           },
           error=>{
             alert('修改失败'+error)
@@ -39,7 +39,7 @@ export default class Update extends Component {
 
     render() {        
         return (
-            <div style={{border:'1px solid',padding:'80px'}}>
+            <div style={{border:'1px solid',padding:'60px'}}>
               <Form
                 name="basic"
                 layout="horizontal"
@@ -83,7 +83,7 @@ export default class Update extends Component {
                       </Form.Item>
                     </Col>
                 </Row>
-                <Form.Item wrapperCol={{ offset: 24, span: 16 }}>
+                <Form.Item wrapperCol={{ offset: 23, span: 16 }}>
                   <Button type="primary" htmlType="submit" >
                     提交
                   </Button>

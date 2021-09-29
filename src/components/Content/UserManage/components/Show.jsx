@@ -26,7 +26,8 @@ class Show extends Component {
   state = {
     selectedRowKeys: [], // Check here to configure the default column
     data:[],
-    updateObj:{},    
+    updateObj:{}, 
+    loading:false   
   };  
   onSelectChange = selectedRowKeys => {
     this.setState({ selectedRowKeys });
@@ -51,21 +52,22 @@ class Show extends Component {
   }
 
   componentDidMount(){
+    this.setState({loading:true})
     axios({
       url:"http://localhost:3000/api/user/show_user_list",
       method:'POST'
     }).then(
           response=>{
-            console.log('成功了',response.data.result)
             const {result}=response.data
             for(let i = 0; i < result.length; i++)
             {
               result[i].key=i
             }
-            this.setState({data:result}) 
+            this.setState({data:result,loading:false}) 
           },
           error=>{
             console.log('失败了',error)
+            this.setState({loading:false}) 
           }
       )
   }
@@ -84,7 +86,7 @@ class Show extends Component {
             </Breadcrumb>
             <div>
               <Button type="primary" style={{float:'right'}} onClick={this.updateInfo}>修改</Button>
-              <Table bordered rowSelection={rowSelection} columns={columns} dataSource={this.state.data} />
+              <Table bordered loading={this.state.loading} rowSelection={rowSelection} columns={columns} dataSource={this.state.data} scroll={{ y: 300 }} />
             </div>
             <Update updateObj={this.state.updateObj} saveInfo={this.saveInfo}/>
         </div>
