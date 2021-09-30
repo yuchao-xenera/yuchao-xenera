@@ -1,15 +1,44 @@
 import React, { Component } from 'react'
 import { Form, Input, Button } from 'antd';
+import axios from 'axios'
 export default class UserForm extends Component {
+    componentDidUpdate(){
+        this.myForm.setFieldsValue(this.props.userEdit)
+	}
     render() {
         const onFinish = (values) => {
-            console.log('Success:', values);
+            const userEdit=this.props.userEdit
+            const data ={
+                userId:userEdit.userId,
+                password:userEdit.password,
+                status:userEdit.status,
+                createUser:userEdit.createUser,
+                updateUser:userEdit.updateUser,
+                pass:userEdit.pass,
+                checkPass:userEdit.checkPass,
+                ...values
+            };
+            axios.post('http://10.113.8.169:8090/api/user/changeInfo',data).then(
+                response => {
+                    if(response.data.code!==200){
+                        alert(response.data.msg)
+                        return
+                    }else{
+                       alert(response.data.msg)
+                       //刷新上面表单
+                       this.props.refreshMy()
+                       //清空下方表单
+                       this.myForm.resetFields();
+                       return
+                    }
+                },
+                error => {console.log('失败了',error)}
+		)
         };
         const onFinishFailed = (errorInfo) => {
-            console.log('Failed:', errorInfo);
+           
         };
-        const {userEdit} = this.props
-
+        // const {userEdit} = this.props
         return (
             <>
                 <Form
@@ -22,7 +51,7 @@ export default class UserForm extends Component {
                         span: 16,
                     }}
                     initialValues={{
-                        ...userEdit
+                        
                     }}
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
