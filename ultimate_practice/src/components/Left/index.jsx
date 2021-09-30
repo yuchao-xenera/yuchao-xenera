@@ -6,6 +6,7 @@ const { Sider } = Layout;
 export default function Left(props) {
   
   const context = React.useContext(Context);
+
   let match = useRouteMatch(window.location.pathname);
   let key = context.header.filter(item =>match.path.indexOf(item.path)>-1)
 

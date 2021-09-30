@@ -1,12 +1,10 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { Form, Input, Button, Row, Col, message } from "antd";
 import axios from "axios";
 
 export default function Revise(props) {
-  const { singleUser, overload } = props;
-  // console.log(singleUser);
   const [form] = Form.useForm();
-
+  const { singleUser, overload } = props;
   const childClick = () => {
     axios
       .post(
@@ -19,16 +17,15 @@ export default function Revise(props) {
         if (code === 200) {
           message.success("修改成功");
           overload();
-          form.resetFields();
         } else {
           message.error("修改失败");
         }
       });
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     form.setFieldsValue(singleUser);
-  });
+  },[singleUser]);
   return (
     <div>
       <Form

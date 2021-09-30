@@ -32,7 +32,6 @@ export default function Userlist() {
     // console.log(data);
     let single = [];
     single = data.filter((item) => item.key === selectedRowKeys[0]);
-    // console.log(single);
     setsingleUser(single[0]);
   };
 
@@ -86,7 +85,6 @@ export default function Userlist() {
           type: 'radio',
           ...rowSelection,
         }}
-        // rowSelection={rowSelection}
         columns={columns}
         dataSource={data}
         pagination={pagination}

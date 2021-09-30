@@ -10,14 +10,16 @@ export default function Headers() {
   const context = useContext(Context);
   let list = [
     {
-      id:"1",
+      id:"0",
       name: "用户管理",
       path: "/manage",
-      children: [{ id:'1-1',name: "用户一览",path:"/manage/userlist" }, { id:'1-2',name: "用户添加",path:"/manage/added" }],
+      children: [{ id:'0-1',name: "用户一览",path:"/manage/userlist" }, { id:'0-2',name: "用户添加",path:"/manage/added" }],
     },
-    { id:"2",name: "数据展示", path: "/exhibit", children: [{ id:"2-1",name: "菜单1",path:"/exhibit/menu" }] },
+    { id:"1",name: "数据展示", path: "/exhibit", children: [{ id:"1-1",name: "菜单1",path:"/exhibit/menu" }] },
   ];
 
+  let match = window.location.pathname;
+  let key = list.filter(item =>match.indexOf(item.path)>-1)
 
   const clickSwitch = (current) => {
     const index = parseInt(current.key);
@@ -27,8 +29,8 @@ export default function Headers() {
   return (
     <Header className="header">
       <div className="logo" />
-      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['0']}>
-        {list.map((item, index) => {
+      <Menu theme="dark" mode="horizontal" selectedKeys={key[0] === undefined ? list[0].id : key[0].id}>
+        {list.map((item,index) => {
           return (
             <Menu.Item
               key={index}
