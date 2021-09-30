@@ -7,10 +7,13 @@ import { connect } from 'react-redux'
 
 const { Header } = Layout;
 
+const userManageKey = '1'
+const dataShowKey = '2'
+
 class HeaderBar extends Component {
 
     state = {
-        selectedKeys: ['1']
+        selectedKeys: [userManageKey]
     }
 
     onClick = (e) => {
@@ -20,9 +23,9 @@ class HeaderBar extends Component {
         //设置路由
         setTimeout(() => {
             // console.log('@@', e.key,this.props.leftKey);
-            if (e.key === "2") {
+            if (e.key === dataShowKey) {
                 this.props.history.push('/dataMenu')
-            } 
+            }
             else {
                 if (!this.props.leftKey || this.props.leftKey === "1") {
                     this.props.history.push('/userList')
@@ -32,7 +35,7 @@ class HeaderBar extends Component {
             }
             this.setHeaderSelectedItem()
         }, 200);
-        
+
 
     }
     /**
@@ -43,11 +46,11 @@ class HeaderBar extends Component {
         // console.log('haderBar 路由：', pathname);
         if (pathname === "/dataMenu") {
             this.setState({
-                selectedKeys: ['2']
+                selectedKeys: [dataShowKey]
             })
         } else {
             this.setState({
-                selectedKeys: ['1']
+                selectedKeys: [userManageKey]
             })
         }
     }
@@ -59,21 +62,22 @@ class HeaderBar extends Component {
         this.setHeaderSelectedItem()
         //通知leftBar
         const pathname = this.props.location.pathname
-        this.props.resetHeaderKey(pathname === "/dataMenu" ? pathname : '1')
+        this.props.resetHeaderKey(pathname === "/dataMenu" ? dataShowKey : userManageKey)
     }
 
     render() {
         return (
             <Header className="header">
-                <div className="logo" />
+                <div className="logo"/>
+
                 <Menu
                     theme="dark"
                     mode="horizontal"
                     selectedKeys={this.state.selectedKeys}
                     onClick={this.onClick}
                 >
-                    <Menu.Item key="1" >用户管理</Menu.Item>
-                    <Menu.Item key="2" >数据展示</Menu.Item>
+                    <Menu.Item key={userManageKey} >用户管理</Menu.Item>
+                    <Menu.Item key={dataShowKey} >数据展示</Menu.Item>
                 </Menu>
             </Header>
         )

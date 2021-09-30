@@ -41,6 +41,16 @@ export default function AddUser() {
             return
         }
 
+        const reg = /^1([0-9]*)?$/;		// 以数字1开头，任意数字结尾，且中间出现零个或多个数字
+        if (uTelephone !== '') {
+            if(( !reg.test(uTelephone) || uTelephone.length !== 11)){
+                Modal.error({
+                    title: '手机号不合法！',
+                });
+                return
+            } 
+        }
+
         axios.post('/user/addUser_handle', {
             "userName": uName,
             "employeeNumber": uNo,
@@ -59,7 +69,6 @@ export default function AddUser() {
                     });
 
                     clearInput()
-
                 } else {
                     Modal.error({
                         title: res.data.msg
@@ -89,20 +98,20 @@ export default function AddUser() {
         <div>
             <div>
                 <span style={{ color: 'red' }}>*</span>name：
-                <input ref={userName} onChange={() => { }} style={{ width: '100px' }} />
+                <input ref={userName} onChange={() => { }} style={{ width: '100px' }} maxLength='20' />
                 &nbsp;&nbsp;&nbsp;&nbsp;<span style={{ color: 'red' }}>*</span>工&nbsp;&nbsp;&nbsp;号：
-                <input ref={employeeNumber} onChange={() => { }} style={{ width: '100px' }} />
+                <input ref={employeeNumber} onChange={() => { }} style={{ width: '100px' }} maxLength='20' />
             </div>
             <br />
             <div>
-                邮箱： <input ref={userEmail} onChange={() => { }} maxLength='20' style={{ width: '100px' }} />
-                &nbsp;&nbsp;&nbsp;&nbsp;手机号：
-                <input ref={telephone} onChange={() => { }} maxLength='11' style={{ width: '100px' }} />
+                邮&nbsp;&nbsp;&nbsp;箱：<input ref={userEmail} onChange={() => { }} maxLength='30' style={{ width: '100px' }} />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;手机号：
+                <input type="tel" ref={telephone} onChange={() => { }} maxLength='11' style={{ width: '100px' }} />
             </div>
             <br />
-            <span style={{ color: 'red' }}>*</span>password：<input ref={password} onChange={() => { }} style={{ width: '100px' }} /> <br /> <br />
-            <span style={{ color: 'red' }}>*</span>确认密码：<input ref={passwordCheck} onChange={() => { }} style={{ width: '100px' }} /> <br /><br />
-            status：<input ref={status} onChange={() => { }} style={{ width: '100px' }} /> <br /><br />
+            <span style={{ color: 'red' }}>*</span>password：<input type="password" ref={password} onChange={() => { }} style={{ width: '100px' }} maxLength='20' /> <br /> <br />
+            <span style={{ color: 'red' }}>*</span>&nbsp;确认密码：<input type="password" ref={passwordCheck} onChange={() => { }} style={{ width: '100px' }} maxLength='20' /> <br /><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status：<input ref={status} onChange={() => { }} style={{ width: '100px' }} maxLength='10' /> <br /><br />
 
             <Button type='primary' style={{ float: 'right', display: 'inline-block' }} onClick={submit}>添加</Button>
         </div >

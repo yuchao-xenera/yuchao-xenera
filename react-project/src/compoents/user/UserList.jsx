@@ -11,18 +11,25 @@ export default function UserList() {
         {
             title: 'name',
             dataIndex: 'userName',
+            with: 100,
+            ellipsis:true
         },
         {
             title: '工号',
             dataIndex: 'employeeNumber',
+            with: 100,
+            ellipsis:true
         },
         {
             title: '邮箱',
             dataIndex: 'userEmail',
+            with: 100,
+            ellipsis:true
         },
         {
             title: '手机号',
             dataIndex: 'telephone',
+            ellipsis:true
         },
     ];
 
@@ -61,23 +68,7 @@ export default function UserList() {
     //         userEmail: '888888@qq.com',
     //         telephone: '13500000000',
     //         password: '99999'
-    //     },
-    //     {
-    //         key: '4',
-    //         userName: 'Demon',
-    //         employeeNumber: 1004,
-    //         userEmail: '888888@qq.com',
-    //         telephone: '13500000000',
-    //         password: '99999'
-    //     },
-    //     {
-    //         key: '5',
-    //         userName: 'James',
-    //         employeeNumber: 1005,
-    //         userEmail: '888888@qq.com',
-    //         telephone: '13500000000',
-    //         password: '99999'
-    //     },
+    //     }
     // ];
 
     const [userList, setUserList] = React.useState([])
@@ -121,31 +112,17 @@ export default function UserList() {
                 console.log(fail);
             }
         )
-
     }
 
+    /**
+     * 传入子组件的回调函数
+     */
     function refreshCallback() {
         console.log("重新加载数据");
         setShow(false)
         loadData()
     }
 
-
-    const rowSelection = {
-        type: 'radio',
-        onChange: onSelectChange,
-    };
-
-    function onSelectChange(selectedRowKeys, selectedRows) {
-        console.log('selectedRowKeys: ', selectedRowKeys, 'selectedRows:', selectedRows);
-        setShow(false)
-        setRowsDataTemp(selectedRows[0])
-    };
-
-    function showTotal(total, range) {
-        // console.log('总条数：', total);
-
-    }
     /**
      * 修改按钮
      */
@@ -155,10 +132,21 @@ export default function UserList() {
         setRowsData(selectedRowsDataTemp)
     }
 
+    const rowSelection = {
+        type: 'radio',
+        onChange: onSelectChange,
+        columnWidth: 100
+    };
+
+    function onSelectChange(selectedRowKeys, selectedRows) {
+        // console.log('selectedRowKeys: ', selectedRowKeys, 'selectedRows:', selectedRows);
+        setShow(false)
+        setRowsDataTemp(selectedRows[0])
+    };
+
     let pagination = {
         pageSize: 6,
-        showSizeChanger: false,
-        showTotal: showTotal
+        showSizeChanger: false
     };
 
     return (
@@ -169,6 +157,7 @@ export default function UserList() {
             </div>
             <br />
             <Table
+                scroll={{x:'100%'}}
                 rowSelection={rowSelection}
                 columns={columns}
                 dataSource={userList}

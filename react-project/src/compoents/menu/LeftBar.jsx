@@ -8,18 +8,22 @@ import { withRouter } from 'react-router-dom'
 import { resetLeftKeyAction } from '../../redux/actions/leftBar'
 const { Sider } = Layout;
 
+const UserListKey = "1"
+const AddUserKey = "2"
+const DataMenuKey = "3"
+
 class LeftBar extends Component {
 
     state = {
-        selectedKeys: ['1'],
-        selectedKeysData: ['3'] //数据展示，默认就1个TAb(“菜单1”)
+        selectedKeys: [UserListKey],
+        selectedKeysData: [DataMenuKey] //数据展示，默认就1个TAb(“菜单1”)
     }
 
     onClick = (e) => {
         this.props.resetLeftKey(e.key)
         console.log("点击tab的key:",e.key);
         //只有点击用户管理的Tab，才给selectedKeys赋值
-        if(e.key !== "3" ){
+        if(e.key !== DataMenuKey ){
             this.setState({
                 selectedKeys: [e.key]
             });
@@ -43,12 +47,12 @@ class LeftBar extends Component {
         console.log("@devil-router", pathname);
         if (pathname === "/userList") {
             this.setState({
-                selectedKeys: ['1']
+                selectedKeys: [UserListKey]
             });
         }
         if (pathname === "/addUser") {
             this.setState({
-                selectedKeys: ['2']
+                selectedKeys: [AddUserKey]
             });
         }
         this.props.history.push(pathname)
@@ -56,15 +60,15 @@ class LeftBar extends Component {
 
     generateMenu = (key) => {
 
-        console.log("@@-->haderKey:",this.props.headerKey,",skey:",this.state.selectedKeys,",skey2:",this.state.selectedKeysData);
+        console.log("@@-->haderKey:",this.props.headerKey,",left-skey:",this.state.selectedKeys,",left-key2:",this.state.selectedKeysData);
 
         if (key === "1") {
             return (
                 <>
-                    <Menu.Item key="1" icon={<UserOutlined />}>
+                    <Menu.Item key={UserListKey} icon={<UserOutlined />}>
                         <Link to='/userList'>用户一览</Link>
                     </Menu.Item>
-                    <Menu.Item key="2" icon={<LaptopOutlined />}>
+                    <Menu.Item key={AddUserKey} icon={<LaptopOutlined />}>
                         <Link to='/addUser'>用户添加</Link>
                     </Menu.Item>
                 </>
@@ -73,7 +77,7 @@ class LeftBar extends Component {
 
             return (
                 <>
-                    <Menu.Item key="3" icon={<NotificationOutlined />}>
+                    <Menu.Item key={DataMenuKey} icon={<NotificationOutlined />}>
                         <Link to='/dataMenu'>菜单1</Link>
                     </Menu.Item>
                 </>
