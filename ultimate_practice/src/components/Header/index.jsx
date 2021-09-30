@@ -10,12 +10,14 @@ export default function Headers() {
   const context = useContext(Context);
   let list = [
     {
+      id:"1",
       name: "用户管理",
       path: "/manage",
-      children: [{ name: "用户一览",path:"/manage/userlist" }, { name: "用户添加",path:"/manage/added" }],
+      children: [{ id:'1-1',name: "用户一览",path:"/manage/userlist" }, { id:'1-2',name: "用户添加",path:"/manage/added" }],
     },
-    { name: "数据展示", path: "/exhibit", children: [{ name: "菜单1",path:"/exhibit/menu" }] },
+    { id:"2",name: "数据展示", path: "/exhibit", children: [{ id:"2-1",name: "菜单1",path:"/exhibit/menu" }] },
   ];
+
 
   const clickSwitch = (current) => {
     const index = parseInt(current.key);

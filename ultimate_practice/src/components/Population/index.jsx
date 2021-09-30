@@ -12,11 +12,11 @@ export default function Population() {
   let start = [];
   if (window.location.pathname.indexOf("/exhibit")) {
     start = [
-      { name: "用户一览", path: "/manage/userlist" },
-      { name: "用户添加", path: "/manage/added" },
+      { id: "1-1", name: "用户一览", path: "/manage/userlist" },
+      { id: "1-2", name: "用户添加", path: "/manage/added" },
     ];
   } else if (window.location.pathname.indexOf("/manage")) {
-    start = [{ name: "菜单1", path: "/exhibit/menu" }];
+    start = [{ id:"2-1",name: "菜单1",path:"/exhibit/menu" }];
   }
   const [header, setHeader] = React.useState(start);
 

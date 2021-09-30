@@ -1,5 +1,5 @@
-import React, { useState, useCallback } from "react";
-import { Table, Modal, Button } from "antd";
+import React, { useState } from "react";
+import { Table, Button } from "antd";
 import axios from "axios";
 import Revise from "../Userlist/Revise/index";
 
@@ -28,24 +28,13 @@ export default function Userlist() {
     },
   ];
   //修改用户
-  const changeSingleUser = useCallback((code) => setsingleUser(code), []);
-  console.log(singleUser);
-  // const changeSingleUser = () => {
-  //   // axios.post(`http://10.113.8.169:8090/api/user/changeInfo`).then(
-  //   //   response =>{
-  //   //     console.log(response);
-  //   //   },
-  //   //   (error) => {
-  //   //     console.log(error);
-  //   //   }
-  //   // )
-  //   console.log(singleUser);
-  //   setConfirmLoading(true);
-  //   setTimeout(() => {
-  //     setVisible(false);
-  //     setConfirmLoading(false);
-  //   }, 500);
-  // };
+  const revise = () => {
+    // console.log(data);
+    let single = [];
+    single = data.filter((item) => item.key === selectedRowKeys[0]);
+    // console.log(single);
+    setsingleUser(single[0]);
+  };
 
   const pagination = {
     pageSize: 6,
@@ -59,20 +48,21 @@ export default function Userlist() {
   };
 
   const loadingData = () => {
-    axios.post(`http://10.113.8.169:8090/api/user/show_user_list`).then(
-      (response) => {
+    axios
+      .post(`http://10.113.8.169:8090/api/user/show_user_list`)
+      .then((response) => {
         // console.log(response);
         const { result } = response.data;
-        result.forEach((item) => {
-          item["key"] = item.userId;
+        result.forEach((item, index) => {
+          item["key"] = index;
         });
         setData(result);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+      });
   };
+
+  const overload=()=>{
+    loadingData();
+  }
 
   React.useEffect(() => {
     loadingData();
@@ -87,15 +77,21 @@ export default function Userlist() {
           justifyContent: "flex-end",
         }}
       >
-        <Button type="primary">修改</Button>
+        <Button type="primary" onClick={revise}>
+          修改
+        </Button>
       </div>
       <Table
-        rowSelection={rowSelection}
+        rowSelection={{
+          type: 'radio',
+          ...rowSelection,
+        }}
+        // rowSelection={rowSelection}
         columns={columns}
         dataSource={data}
         pagination={pagination}
       />
-      <Revise singleUser={singleUser} changeSingleUser={changeSingleUser} />
+      <Revise singleUser={singleUser} overload={overload}/>
     </div>
   );
 }
