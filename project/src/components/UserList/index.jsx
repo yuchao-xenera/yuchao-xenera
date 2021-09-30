@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux';
 import { sendPath } from '../../redux/actions/main_action';
-import { Table, Modal, message } from 'antd';
+import { Table, message, Button } from 'antd';
 import Axios from 'axios';
 
 import ChangeUserPage from '../../pages/changeUser/ChangeUserPage';
@@ -13,40 +13,36 @@ function UserList(props) {
   const [selectedRowKeys, setSelectedRowKeys] = React.useState([]);
   // 存放后端请求来的data
   const [dataSource, setDataSource] = React.useState([]);
-  // 控制对话框的显示，用于修改数据
-  const [isModalVisible, setIsModalVisible] = React.useState(false);
-  // 用于给修改User对话框组件传递当前行数据
+  // 存放传递给子组件ChangeUserPage的数据
   const [sendData, setSendData] = React.useState({});
+  // 控制修改按钮的显示
+  const [isShow, setIsShow] = React.useState(true);
+  // 点击修改跳转到修改框
+  const changeRef = React.useRef();
 
   const columns = [
     {
-      title: 'Name',
+      title: 'name',
       dataIndex: 'userName',
-      key: 'userName',
+      key: 'userName'
     },
     {
       title: '工号',
       dataIndex: 'employeeNumber',
       key: 'employeeNumber',
+      width: '25%'
     },
     {
       title: '邮箱',
       dataIndex: 'userEmail',
       key: 'userEmail',
+      width: '25%'
     },
     {
       title: '手机号',
       dataIndex: 'telephone',
       key: 'telephone',
-    },
-    // 虽然不懂，但是出来了！！！
-    {
-      title: '操作',
-      valueType: 'option',
-      width: 100,
-      render: (_, record, __) => [
-        <a key="editable" onClick={() => showModal(record)} > 修改 </a>
-      ],
+      width: '25%'
     }
   ];
 
@@ -66,9 +62,7 @@ function UserList(props) {
           const { code, result } = res.data;
           if (code === 200) {
             // 给得到的result数组每一项加上一个key
-            result.forEach(item => {
-              item['key'] = item.userId
-            })
+            result.forEach(item => item['key'] = item.userId)
             setDataSource(result)
           }
         },
@@ -76,59 +70,40 @@ function UserList(props) {
           console.log(err);
         }
       )
-
-    // // 在家里面模拟的数据，记得删除！
-    // const result = [
-    //   { userName: 'test01', employeeNumber: 'P0100001', userEmail: 'test@pactera.com', telephone: '15212345678', key: 1, userId: 1 },
-    //   { userName: 'test02', employeeNumber: 'P0100002', userEmail: 'test@pactera.com', telephone: '15212345678', key: 2, userId: 2 },
-    //   { userName: 'test03', employeeNumber: 'P0100003', userEmail: 'test@pactera.com', telephone: '15212345678', key: 3, userId: 3 },
-    //   { userName: 'test04', employeeNumber: 'P0100004', userEmail: 'test@pactera.com', telephone: '15212345678', key: 4, userId: 4 }
-    // ];
-    // setDataSource(result)
   }
 
-  const showModal = (record) => {
-    setIsModalVisible(true);
-    setSendData(record);
-  };
+  const changeUser = () => {
+    let tmpArray = [];
+    if (dataSource.length !== 0) {
+      tmpArray = dataSource.filter(item => item.key === selectedRowKeys[0])
+    }
+    setSendData(tmpArray[0])
+    if (changeRef.current) {
+      window.scrollTo(0, changeRef.current.offsetTop || 0)
+    }
+  }
 
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
-
-  const getFormData = (formData) => {
-    delete formData.key;
-    // ajax提交后台修改接口
-    Axios.post('http://10.113.8.169:8090/api/user/changeInfo', formData)
-      .then(
-        res => {
-          const { code, result } = res.data;
-          if (code === 200) {
-            message.success(result);
-          } else {
-            message.error(result);
-          }
-          setIsModalVisible(false);
-          loadingData();
-        },
-        err => {
-          console.log(err);
-        }
-      )
-
+  const reload = () => {
+    loadingData();
   }
 
   React.useEffect(() => {
     props.sendPath(path);
     loadingData();
-  }, [])
+    selectedRowKeys.length === 0 ? setIsShow(true) : setIsShow(false);
+  }, [selectedRowKeys])
 
   return (
     <>
-      <Table rowSelection={rowSelection} columns={columns} dataSource={dataSource} />
-      <Modal title="修改用户" visible={isModalVisible} width={600} style={{ top: '30%' }} footer={null} onCancel={handleCancel}>
-        <ChangeUserPage data={sendData} getFormData={getFormData} />
-      </Modal>
+      <div style={{ marginBottom: 16, display: "flex", justifyContent: "flex-end" }} >
+        <Button type="primary" onClick={changeUser} disabled={isShow}>修改</Button>
+      </div>
+      <Table rowSelection={{ type: 'radio', ...rowSelection }}
+        columns={columns} dataSource={dataSource} bordered pagination={{ pageSize: 5 }}
+      />
+      <div ref={changeRef}>
+        <ChangeUserPage data={sendData} reload={reload} />
+      </div>
     </>
   )
 }

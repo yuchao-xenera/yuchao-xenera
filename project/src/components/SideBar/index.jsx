@@ -6,7 +6,9 @@ import { Link, useRouteMatch } from 'react-router-dom';
 const { Sider } = Layout;
 
 function SideBar(props) {
+  // 路由
   let match = useRouteMatch(window.location.pathname);
+  // 过滤出来的当前页面的子级菜单对象
   let key = props.getItems.children.filter(item => match.path.indexOf(item.path) > -1);
 
   return (

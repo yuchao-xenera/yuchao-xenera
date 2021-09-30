@@ -9,11 +9,14 @@ const { Header } = Layout;
 
 
 function MyHeader(props) {
+  // 从redux上获取到的菜单的对象数组
   const { itemObjList } = props;
   const [items] = React.useState(itemObjList);
+  // 路由
   let history = useHistory();
-
+  // router
   let match = useRouteMatch(window.location.pathname);
+  // 过滤出来的当前页面的菜单对象
   let key = itemObjList.filter(item => match.path.indexOf(item.path) > -1)
 
   const chooseItem = (id) => {
@@ -23,6 +26,7 @@ function MyHeader(props) {
       history.push(childList[0].path);
     }
   }
+
   return (
     <>
       <Header className="header">
